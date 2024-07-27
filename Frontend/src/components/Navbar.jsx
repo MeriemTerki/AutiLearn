@@ -57,9 +57,12 @@ const Navbar = () => {
             Donate
           </Link>
         </div>
-        <button className="btn bg-customButton text-xl text-customText border-0 px-4 py-0  hover:bg-customButtonDarker">
+        <Link
+          to="/signup"
+          className="btn bg-customButton text-xl text-customText border-0 px-4 py-0  hover:bg-customButtonDarker"
+        >
           Get Started
-        </button>
+        </Link>
       </div>
     </div>
   );
