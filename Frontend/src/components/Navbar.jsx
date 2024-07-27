@@ -25,18 +25,18 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-customBgBlue rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <Link to="/" className="text-customText">
+            <a href="#about" className="text-customText">
               About
-            </Link>
-            <Link to="/" className="text-customText">
+            </a>
+            <a href="#features" className="text-customText">
               Features
-            </Link>
-            <Link to="/" className="text-customText">
+            </a>
+            <a href="#faq" className="text-customText">
               FAQ
-            </Link>
-            <Link to="/" className="text-customText">
+            </a>
+            <a href="#donate" className="text-customText">
               Donate
-            </Link>
+            </a>
           </ul>
         </div>
         <a className="btn btn-ghost text-xl text-customText">AutiLearn</a>
@@ -44,18 +44,18 @@ const Navbar = () => {
 
       <div className="navbar-end flex items-center space-x-4">
         <div className="hidden lg:flex lg:space-x-4">
-          <Link to="#about" className="text-customText ">
+          <a href="#about" className="text-customText">
             About
-          </Link>
-          <Link to="#features" className="text-customText">
+          </a>
+          <a href="#features" className="text-customText">
             Features
-          </Link>
-          <Link to="/" className="text-customText">
+          </a>
+          <a href="#faq" className="text-customText">
             FAQ
-          </Link>
-          <Link to="/" className="text-customText">
+          </a>
+          <a href="#donate" className="text-customText">
             Donate
-          </Link>
+          </a>
         </div>
         <Link
           to="/signup"

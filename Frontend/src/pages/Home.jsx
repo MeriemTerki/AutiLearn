@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import About from "../components/Home/About";
 import Donate from "../components/Home/Donate";
 import FAQ from "../components/Home/FAQ";
@@ -7,10 +8,19 @@ const Home = () => {
   return (
     <div className="bg-customBgWhite w-full min-h-screen">
       <Navbar />
-      <About />
-      <Features />
-      <FAQ />
-      <Donate />
+      <div id="about">
+        <About />
+      </div>
+      <div id="features">
+        <Features />
+      </div>
+      <div id="faq">
+        <FAQ />
+      </div>
+      <div id="donate">
+        <Donate />
+      </div>
+      <Footer />
     </div>
   );
 };
