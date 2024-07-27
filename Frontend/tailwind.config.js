@@ -10,6 +10,7 @@ export default {
         customText: "#FBFFFF",
         customButton: "#EF7F7E",
         customButtonDarker: "#D76D6D",
+        customBgWhite: "#F6F9FE",
       },
       fontFamily: {
         display: "Open Sans",
