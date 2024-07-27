@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import About from "../components/Home/About";
 import Donate from "../components/Home/Donate";
 import FAQ from "../components/Home/FAQ";
@@ -19,6 +20,7 @@ const Home = () => {
       <div id="donate">
         <Donate />
       </div>
+      <Footer />
     </div>
   );
 };
