@@ -1,4 +1,5 @@
 import About from "../components/Home/About";
+import FAQ from "../components/Home/FAQ";
 import Features from "../components/Home/Features";
 import Navbar from "../components/Navbar";
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
       <Navbar />
       <About />
       <Features />
+      <FAQ />
     </div>
   );
 };
