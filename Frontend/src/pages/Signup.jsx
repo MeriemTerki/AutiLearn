@@ -8,8 +8,55 @@ const Signup = () => {
   const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const handleSignUp = () => {};
+  const validatePassword = () => {
+    const newErrors = {};
+    if (!validateEmail()) {
+      newErrors.email = "Invalid email address";
+    }
+    if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+    if (!/[A-Z]/.test(password)) {
+      newErrors.password =
+        "Password must contain at least one uppercase letter";
+    }
+    if (!/[a-z]/.test(password)) {
+      newErrors.password =
+        "Password must contain at least one lowercase letter";
+    }
+    if (!/[0-9]/.test(password)) {
+      newErrors.password = "Password must contain at least one digit";
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      newErrors.password =
+        "Password must contain at least one special character";
+    }
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+  };
+  const handleSignUp = () => {
+    const data = {
+      username,
+      email,
+      dateOfBirth,
+      country,
+      password,
+      confirmPassword,
+    };
+    setIsLoading(true);
+    console.log(data);
+    validatePassword();
+  };
   return (
     <div className="bg-customBgWhite w-full min-h-screen flex flex-col justify-center p-4">
       <div className="text-center text-black font-bold text-xl mt-4">
@@ -26,6 +73,7 @@ const Signup = () => {
           <label className=" text-black">Name</label>
           <input
             placeholder="Name"
+            required
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -33,19 +81,27 @@ const Signup = () => {
           />
         </div>
         <div className="mx-4">
-          <label className=" text-black">E-mail Address</label>
+          <label className=" text-black" htmlFor="email">
+            E-mail Address
+          </label>
           <input
             placeholder="E-mail Address"
+            id="email"
+            required
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="border rounded-sm bg-white border-customTextBlack px-4 py-2 w-full text-black-50"
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
         <div className="mx-4">
           <label className=" text-black">Date of birth</label>
           <input
             placeholder="Date of birth"
+            required
             type="date"
             value={dateOfBirth}
             onChange={(e) => setDateOfBirth(e.target.value)}
@@ -63,24 +119,38 @@ const Signup = () => {
           />
         </div>
         <div className="mx-4">
-          <label className=" text-black">Password</label>
+          <label className=" text-black" htmlFor="password">
+            Password
+          </label>
           <input
             placeholder="Password"
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="border rounded-sm bg-white border-customTextBlack px-4 py-2 w-full text-black-50"
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+          )}
         </div>
         <div className="mx-4">
-          <label className=" text-black">Confirm password</label>
+          <label className=" text-black" htmlFor="confirmPassword">
+            Confirm password
+          </label>
           <input
             placeholder="Confirm password"
+            id="confirmPassword"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="border rounded-sm bg-white border-customTextBlack px-4 py-2 w-full text-black-50"
           />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword}
+            </p>
+          )}
         </div>
       </div>
 

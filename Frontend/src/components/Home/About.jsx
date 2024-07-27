@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import landingImage from "../../assets/landingImage.svg";
 
 const About = () => {
@@ -23,9 +24,12 @@ const About = () => {
           love of learning while catering to the unique learning styles of kids
           with autism.
         </p>
-        <button className="btn bg-customButton text-xl text-customText border-0 px-4 py-0 w-fit  hover:bg-customButtonDarker">
+        <Link
+          to="/signup"
+          className="btn bg-customButton text-xl text-customText border-0 px-4 py-0 w-fit  hover:bg-customButtonDarker"
+        >
           Get Started
-        </button>
+        </Link>
       </div>
     </div>
   );
