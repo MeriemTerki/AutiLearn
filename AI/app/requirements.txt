@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+cohere
+tiktoken
+langchain
+pinecone-client
+langchain-google-genai
+google-generativeai
+langchain_community
+langchain-experimental
