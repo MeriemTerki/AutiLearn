@@ -1,4 +1,5 @@
 import About from "../components/Home/About";
+import Donate from "../components/Home/Donate";
 import FAQ from "../components/Home/FAQ";
 import Features from "../components/Home/Features";
 import Navbar from "../components/Navbar";
@@ -9,6 +10,7 @@ const Home = () => {
       <About />
       <Features />
       <FAQ />
+      <Donate />
     </div>
   );
 };
