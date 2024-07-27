@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useSnackbar } from "notistack";
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +13,8 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -44,7 +49,7 @@ const Signup = () => {
 
     setErrors(newErrors);
   };
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const data = {
       username,
       email,
@@ -56,6 +61,28 @@ const Signup = () => {
     setIsLoading(true);
     console.log(data);
     validatePassword();
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/home");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (error.code === "auth/email-already-in-use") {
+          setErrors({ email: "This email address is already in use" });
+          enqueueSnackbar(
+            "This email address is already in use. Please Login."
+          );
+          navigate("/login");
+        } else {
+          console.error("Error signing up:", error);
+          setErrors({ general: "An error occurred during sign-up" });
+        }
+        console.log(errorCode, errorMessage);
+      });
   };
   return (
     <div className="bg-customBgWhite w-full min-h-screen flex flex-col justify-center p-4">
@@ -152,6 +179,11 @@ const Signup = () => {
             </p>
           )}
         </div>
+        {errors.general && (
+          <p className="text-red-500 text-sm text-center mt-1">
+            {errors.general}
+          </p>
+        )}
       </div>
 
       <button

@@ -1,6 +1,37 @@
-import { Link } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from "react-router-dom";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import { useEffect, useState } from "react";
+const Navbar = ({ user }) => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
 
-const Navbar = () => {
+    // Clean up the subscription on unmount
+    return () => unsubscribe();
+  }, []);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+        console.log("Signed out successfully");
+        setIsLoggedIn(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        // An error happened.
+      });
+  };
   return (
     <div className="navbar bg-customBgBlue font-display ">
       <div className="navbar-start">
@@ -57,12 +88,21 @@ const Navbar = () => {
             Donate
           </a>
         </div>
-        <Link
-          to="/signup"
-          className="btn bg-customButton text-xl text-customText border-0 px-4 py-0  hover:bg-customButtonDarker"
-        >
-          Get Started
-        </Link>
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="btn bg-customButton text-xl text-customText border-0 px-4 py-0  hover:bg-customButtonDarker"
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            to="/signup"
+            className="btn bg-customButton text-xl text-customText border-0 px-4 py-0  hover:bg-customButtonDarker"
+          >
+            Get Started
+          </Link>
+        )}
       </div>
     </div>
   );
