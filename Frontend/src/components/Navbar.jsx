@@ -56,6 +56,13 @@ const Navbar = ({ user }) => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-customBgBlue rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
+            {isLoggedIn ? (
+              <Link to="/dashboard" className="text-customText">
+                Dashboard
+              </Link>
+            ) : (
+              ""
+            )}
             <a href="#about" className="text-customText">
               About
             </a>
@@ -75,6 +82,14 @@ const Navbar = ({ user }) => {
 
       <div className="navbar-end flex items-center space-x-4">
         <div className="hidden lg:flex lg:space-x-4">
+          {isLoggedIn ? (
+            <Link to="/dashboard" className="text-customText">
+              Dashboard
+            </Link>
+          ) : (
+            ""
+          )}
+
           <a href="#about" className="text-customText">
             About
           </a>
