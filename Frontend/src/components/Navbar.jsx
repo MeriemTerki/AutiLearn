@@ -89,6 +89,7 @@ const Navbar = ({ user }) => {
           ) : (
             ""
           )}
+
           <a href="#about" className="text-customText">
             About
           </a>
