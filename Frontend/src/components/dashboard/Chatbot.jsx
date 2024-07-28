@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { SendHorizontal } from "lucide-react";
 
 const Chatbot = () => {
@@ -23,23 +24,38 @@ const Chatbot = () => {
   }, [messages]);
 
   // Handle sending message
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
       const newMessages = [...messages, { text: input, type: "user" }];
       setMessages(newMessages);
       setInput("");
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse = getBotResponse(input);
+      // Get the bot response from the API
+      try {
+        const botResponse = await getBotResponse(input, newMessages);
         setMessages([...newMessages, { text: botResponse, type: "bot" }]);
         scrollToBottom();
-      }, 1000);
+      } catch (error) {
+        console.error("Error fetching bot response:", error);
+      }
     }
   };
 
-  const getBotResponse = (userInput) => {
-    return "Humans and animals need oxygen to breathe. Oxygen is a gas found in the air around us. When we breathe in, oxygen enters our lungs and then gets transported by our blood to all parts of our body. Every cell in our body needs oxygen to function properly. Oxygen helps our cells create energy from the food we eat. This process is called cellular respiration.";
+  // Function to get bot response from the API
+  const getBotResponse = async (userInput, chatHistory) => {
+    const apiUrl = "https://mega-hackathon-2024.onrender.com/chat";
+    const payload = {
+      query: userInput,
+      chat_history: chatHistory.map((msg) => msg.text),
+    };
+
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data.response;
   };
 
   const handleKeyDown = (event) => {
@@ -67,7 +83,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="xl:p-6 pb-2  min-h-full relative text-zinc-900 px-5 md:px-12 xl:px-5">
+    <div className="xl:p-6 pb-2 min-h-full relative text-zinc-900 px-5 md:px-12 xl:px-5">
       {introVisible && (
         <div className="text-center md:text-left mb-12 max-w-[600px]">
           <h1 className="font-bold text-4xl mb-3">Chatbot</h1>

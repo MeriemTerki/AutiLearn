@@ -6,6 +6,7 @@ import google.generativeai as genai
 from langchain_community.embeddings import CohereEmbeddings
 from pinecone import Pinecone
 from langchain_community.vectorstores import Pinecone as Pinecone_Langchain
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,6 +18,15 @@ gemini_secret_key = os.getenv('GEMINI_SECRET_KEY')
 index_name = os.getenv('PINECONE_INDEX_NAME', 'haven-app')  # Default value 'haven-app' if not set
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define the request models
 class QueryRequest(BaseModel):
@@ -157,5 +167,3 @@ async def generate_quiz_endpoint(request: QuizRequest):
         return {"quiz_content": quiz_content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
