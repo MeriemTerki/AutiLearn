@@ -28,7 +28,7 @@ const Login = () => {
           values.password
         );
         console.log(userCredential.user);
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         console.error("Error logging in:", error);
         if (error.code === "auth/invalid-credential") {

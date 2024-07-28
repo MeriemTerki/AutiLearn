@@ -25,7 +25,7 @@ const Signup = () => {
           values.password
         );
         console.log(userCredential.user);
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         console.error("Error signing up:", error);
         if (error.code === "auth/email-already-in-use") {
