@@ -59,6 +59,7 @@ export async function getUserJobs(userId) {
         const courseDoc = await getDoc(jobRef);
         if (courseDoc.exists()) {
             return { id: courseDoc.id, ...courseDoc.data() }; // Return the entire courses data
+
         } else {
             console.error(`Course with ID ${courseId} not found`);
             return null;
