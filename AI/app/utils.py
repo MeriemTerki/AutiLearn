@@ -129,48 +129,11 @@ def generate_story(type, topic):
         genai.configure(api_key=gemini_secret_key)
         system_prompt = f"""You are a creative storyteller who creates engaging and interactive adventure stories for kids. For the topic '{topic}' related to {type}, create a story featuring fictional characters who embark on an adventure to explore this topic. Use lively and imaginative dialogue between characters to explain the topic in a fun and captivating way. Make sure the language is very simple and direct, suitable for kids with autism. Include exciting interactions and adventures to keep the child engaged and eager to learn. Here is the context to help you craft the story: {results}"""
         model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
-        return model.generate_content(query).text
-# New function to generate interactive quizzes based on type and topic
-def generate_quiz(type, topic):
-    embeddings = CohereEmbeddings(cohere_api_key=cohere_secret_key, user_agent=index_name)
-    query = f"Type: {type}, Topic: {topic}"
-    embedded_query = embeddings.embed_query(query)
-    pc = Pinecone(api_key=pinecone_secret_key)
-    index = pc.Index(index_name)
-    results = index.query(
-        vector=embedded_query,
-        top_k=5,  # Increase the number of documents retrieved
-        include_metadata=True
-    )
-    results = format_docs(results)
-    if len(results) == 0:
-        return "I'm sorry, I don't have quiz content available for this topic. Could you please select another topic?"
-    else:
-        genai.configure(api_key=gemini_secret_key)
-        system_prompt = f"""You are a creative quiz master who designs interactive and engaging quizzes for kids. For the topic '{topic}' related to {type}, create a fun quiz with multiple-choice questions. Each question should have four options, with one correct answer and three distractors. Include an explanation for the correct answer to help kids understand the topic better. Use simple language and a direct manner suitable for kids with autism. Make the quiz exciting and enjoyable. Here is the detailed context to help you craft the quiz: {results}"""
-        model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
-        return model.generate_content(query).text
-# Example usage
-if __name__ == "__main__":
-    query = "What is photosynthesis?"
-    chat_history = [{"role": "user", "message": query}]
-    response = chat(query, chat_history)
-    print(response)
-    
-    # Generate course content
-    type = "biology"
-    topic = "Chromosomes"
-    course_content = generate_course(type, topic)
-    print("Course Content:", course_content)
-    
-    # Generate story content
-    type = "biology"
-    topic = "Genetics"
-    story_content = generate_story(type, topic)
-    print("Story Content:", story_content)
+        return model.generate_content(f"Create a story on {topic}").text
 
-    # Generate quiz content
-    type = "biology"
-    topic = "Genetics"
-    quiz_content = generate_quiz(type, topic)
-    print("Quiz Content:", quiz_content)
+# Updated function to generate quiz based on course content
+def generate_quiz(course_content):
+    genai.configure(api_key=gemini_secret_key)
+    system_prompt = f"""You are a creative quiz master who designs interactive and engaging quizzes for kids. Create a fun quiz with multiple-choice questions based on the following course content. Each question should have four options, with one correct answer and three distractors. Include an explanation for the correct answer to help kids understand the topic better. Use simple language and a direct manner suitable for kids with autism. Make the quiz exciting and enjoyable. Here is the course content to help you craft the quiz: {course_content}"""
+    model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
+    return model.generate_content(f"Create a quiz for the following course content").text
