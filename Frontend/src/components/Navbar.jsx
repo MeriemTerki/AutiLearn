@@ -33,7 +33,7 @@ const Navbar = ({ user }) => {
       });
   };
   return (
-    <div className="navbar bg-customBgBlue font-display ">
+    <div className="navbar bg-customBgBlue font-display p-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
