@@ -92,7 +92,9 @@ const Signup = () => {
           ) : null}
         </div>
         <div className="mx-4">
-          <label className=" text-black">Date of birth</label>
+          <div>
+            <label className=" text-black">Date of birth</label>
+          </div>
           <input
             id="dateOfBirth"
             name="dateOfBirth"
@@ -100,7 +102,7 @@ const Signup = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.dateOfBirth}
-            className="border rounded-sm bg-white border-customTextBlack px-4 py-2 w-full text-black-50"
+            className="border rounded-sm bg-white border-customTextBlack px-4 py-2 w-full  text-black-50"
           />
           {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
             <p className="text-red-500 text-sm mt-1">
