@@ -84,7 +84,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
             {/* Log Out */}
             <Link
-              to="/"
+              to="/dashboard/logout"
               className="flex items-center py-2 text-gray-900 rounded-lg hover:bg-gray-100 group px-4 mb-2 cursor-pointer"
             >
               <LogOut className="w-5" />
