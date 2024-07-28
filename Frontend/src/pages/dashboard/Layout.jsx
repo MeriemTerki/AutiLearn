@@ -7,7 +7,7 @@ const Layout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex flex-col xl:flex-row bg-white overflow-hidden">
+    <div className="flex flex-col xl:flex-row bg-white min-h-[100vh] overflow-hidden">
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       <main className="grow w-full  max-w-[1000px] h-full mx-auto xl:py-4">
         <Header isOpen={isOpen} setIsOpen={setIsOpen} />
