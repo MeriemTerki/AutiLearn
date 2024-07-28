@@ -45,12 +45,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <div
         className={`w-64 absolute xl:relative min-h-[100vh] ${
-          isOpen ? "left-0" : "-left-full"
+          isOpen ? "left-0" : "-left-64"
         } xl:left-0`}
       >
         <aside
           className={`fixed top-0 border-r left-0 z-40 w-64 h-[100dvh] ${
-            isOpen ? "left-0" : "-left-[100%]"
+            isOpen ? "left-0" : "-left-64"
           } xl:left-0`}
           aria-label="Sidebar"
         >
