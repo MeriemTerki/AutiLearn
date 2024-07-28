@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         } xl:left-0`}
       >
         <aside
-          className={`fixed top-0 border-r left-0 z-40 w-64 h-[100dvh] ${
+          className={`fixed top-0 border-r z-40 w-64 h-[100dvh] ${
             isOpen ? "left-0" : "-left-64"
           } xl:left-0`}
           aria-label="Sidebar"
