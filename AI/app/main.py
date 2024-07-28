@@ -158,13 +158,4 @@ async def generate_quiz_endpoint(request: QuizRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Example usage for testing within this script
-if __name__ == "__main__":
-    import uvicorn
-    query = "What is photosynthesis?"
-    chat_history = [{"role": "user", "message": query}]
-    response = chat(query, chat_history)
-    print(response)
-    
-    # Start FastAPI app for testing
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
