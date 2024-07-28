@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
 import { SendHorizontal } from "lucide-react";
 
 const Chatbot = () => {
@@ -30,32 +29,37 @@ const Chatbot = () => {
       setMessages(newMessages);
       setInput("");
 
-      // Get the bot response from the API
+      // Call the API to get the bot response
       try {
-        const botResponse = await getBotResponse(input, newMessages);
-        setMessages([...newMessages, { text: botResponse, type: "bot" }]);
+        const response = await fetch("https://mega-hackathon-2024.onrender.com/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: input,
+            chat_history: newMessages.map((msg) => ({ role: msg.type, message: msg.text })),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const botResponse = data.response || "Sorry, I couldn't fetch the response.";
+
+        setMessages((prevMessages) => [...prevMessages, { text: botResponse, type: "bot" }]);
         scrollToBottom();
       } catch (error) {
         console.error("Error fetching bot response:", error);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: "Sorry, I couldn't fetch the response.", type: "bot" },
+        ]);
+        scrollToBottom();
       }
     }
-  };
-
-  // Function to get bot response from the API
-  const getBotResponse = async (userInput, chatHistory) => {
-    const apiUrl = "https://mega-hackathon-2024.onrender.com/chat";
-    const payload = {
-      query: userInput,
-      chat_history: chatHistory.map((msg) => msg.text),
-    };
-
-    const response = await axios.post(apiUrl, payload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data.response;
   };
 
   const handleKeyDown = (event) => {
