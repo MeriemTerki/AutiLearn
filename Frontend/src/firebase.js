@@ -2,10 +2,18 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
+
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "autilearn-d8f45.firebaseapp.com",
@@ -20,15 +28,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
+
+// Initialize Firestore
+export const db = getFirestore(app, { useFetchStreams: false });
 export const auth = getAuth(app);
-export default app;
 
 // Get all the courses from the Course table
 export async function getAllCourses() {
   const data = await getDocs(collection(db, "Course"));
-  data.docs.map((doc) => {
-      console.log(doc.id);
-      console.log(doc.data());
+  data.docs.forEach((doc) => {
+    console.log(doc.id);
+    console.log(doc.data());
   });
 }
 
@@ -37,17 +47,21 @@ export async function getUserData(userID) {
   const userRef = doc(db, "Users", userID);
   const userDoc = await getDoc(userRef);
 
-  console.log(userDoc.data());
+  if (userDoc.exists()) {
+    console.log(userDoc.data());
+  } else {
+    console.error("No such user!");
+  }
 }
 
 // Edit user data
 export async function editUserData(userID, newData) {
   const userRef = doc(db, "Users", userID);
   try {
-      await updateDoc(userRef, newData);
-      console.log("User data updated successfully");
+    await updateDoc(userRef, newData);
+    console.log("User data updated successfully");
   } catch (error) {
-      console.error("Error updating user data: ", error);
+    console.error("Error updating user data: ", error);
   }
 }
 
@@ -73,4 +87,11 @@ export async function getUserCourses(userId) {
 
   const courseInfos = await Promise.all(courseInfoPromises);
   return courseInfos.filter(info => info !== null);
+}
+    const courseInfos = await Promise.all(courseInfoPromises);
+    return courseInfos.filter((info) => info !== null);
+  } catch (error) {
+    console.error("Error fetching user courses:", error);
+    throw error;
+  }
 }
