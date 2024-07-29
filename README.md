@@ -16,11 +16,6 @@ AutiLearn is a groundbreaking e-learning platform designed specifically for chil
 - **Artificial intelligence:** Gemini and Cohere APIs, Pinecone, Python, Render.
 - **Web development:** ReactJS, Firebase, TailwindCSS.
 
-## 💗 What's next for AutiLearn
-- **Podcasts feature:** The AI API will have another endpoint to generate micro-podcasts related to the learning paths. We acknowledge that some kids with autism are more into auditory learning.
-- **Content creation platform:** To maximize AutiLearn's impact, we're developing a content creation platform for parents and teachers. Users can upload educational PDFs, and our AI will transform them into engaging accessible courses, quizzes, and stories. These custom learning paths can then be added to a child's AutiLearn account.
-- **Mobile app version:** To enhance accessibility and user experience, we are developing a dedicated AutiLearn mobile app.
-
 ## 👇 Check our work here
 - [AutiLearn document](https://drive.google.com/file/d/1_Dh11H-_p8Tx6cDKLYsMDMMWyx4nMggr/view?usp=sharing)
 - [UI Design](https://www.figma.com/design/RhqLHXiUjBJnLlHYiDV0Qq/AutiLearn?node-id=3034-300&t=Naiot6KmNb5KmsDv-0)
