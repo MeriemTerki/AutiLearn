@@ -2,8 +2,10 @@ import Cell from "../../assets/dashboard/cell.svg";
 import Genetic from "../../assets/dashboard/genetic.svg";
 import Apple from "../../assets/dashboard/apple.svg";
 import Tv from "../../assets/dashboard/tv.svg";
+import { Link, useOutletContext } from "react-router-dom";
 
 // Courses Gradient and text color constants
+
 const GRADIENTS = {
   Biology: "bg-gradient-to-bl from-orange-500 via-red-600 to-rose-700",
   Physics: "bg-gradient-to-bl from-lime-400 via-emerald-500 to-green-600",
@@ -29,13 +31,13 @@ const biologyCourses = [
     subject: "Biology",
   },
   {
-    id: 1,
+    id: 3,
     title: "Powering the Cell",
     img: Cell,
     subject: "Biology",
   },
   {
-    id: 2,
+    id: 4,
     title: "The Genetic Code",
     img: Genetic,
     subject: "Biology",
@@ -44,13 +46,13 @@ const biologyCourses = [
 
 const physicsCourses = [
   {
-    id: 3,
+    id: 1,
     title: "Newton's Laws",
     img: Apple,
     subject: "Physics",
   },
   {
-    id: 4,
+    id: 2,
     title: "Simple Machines",
     img: Tv,
     subject: "Physics",
@@ -70,30 +72,38 @@ const physicsCourses = [
 ];
 
 // CourseCard component
-const CourseCard = ({ id, title, img, subject }) => (
-  <div
-    key={id}
-    className={`min-w-[245px] md:w-[245px] shadow-lg rounded-[12px] mb-10 xl:mb-6 cursor-pointer py-6 px-5 xl:px-5 xl:py-6 ${GRADIENTS[subject]}`}
-  >
-    <div className="text-6xl flex mb-4 items-center justify-center">
-      <img src={img} className="w-full" alt={`${title} course icon`} />
-    </div>
-    <div className="font-medium text-2xl xl:text-xl text-white">{title}</div>
+const CourseCard = ({ id, title, img, subject }) => {
+  const { setSelectedCourse } = useOutletContext(); // Get setSelectedCourse function from context
+
+  const handleClick = () => {
+    setSelectedCourse({ id, title, img, subject });
+  };
+  return (
     <div
-      className={`font-bold text-xl xl:text-lg mb-3 ${
-        subject === "Biology"
-          ? `text-[${TEXT_COLORS.Biology}]`
-          : `text-[${TEXT_COLORS.Physics}]`
-      }`}
+      onClick={handleClick}
+      key={id}
+      className={`min-w-[245px] md:w-[245px] shadow-lg rounded-[12px] mb-10 xl:mb-6 cursor-pointer py-6 px-5 xl:px-5 xl:py-6 ${GRADIENTS[subject]}`}
     >
-      {subject}
+      <div className="text-6xl flex mb-4 items-center justify-center">
+        <img src={img} className="w-full" alt={`${title} course icon`} />
+      </div>
+      <div className="font-medium text-2xl xl:text-xl text-white">{title}</div>
+      <div
+        className={`font-bold text-xl xl:text-lg mb-3 ${
+          subject === "Biology"
+            ? `text-[${TEXT_COLORS.Biology}]`
+            : `text-[${TEXT_COLORS.Physics}]`
+        }`}
+      >
+        {subject}
+      </div>
+      <div className="flex items-center text-lg xl:text-base justify-between text-white/60 font-bold">
+        <span>Completed:</span>
+        <span>95%</span>
+      </div>
     </div>
-    <div className="flex items-center text-lg xl:text-base justify-between text-white/60 font-bold">
-      <span>Completed:</span>
-      <span>95%</span>
-    </div>
-  </div>
-);
+  );
+};
 
 // My Learning component
 const MyLearning = () => (
