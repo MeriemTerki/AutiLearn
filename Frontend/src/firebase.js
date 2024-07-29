@@ -69,33 +69,25 @@ export async function editUserData(userID, newData) {
 export async function getUserCourses(userId) {
   const userCoursesRef = collection(db, "userCoursesIn");
   const userCoursesQuery = query(userCoursesRef, where("userId", "==", userId));
+  const userCoursesSnapshot = await getDocs(userCoursesQuery);
 
-  try {
-    const userCoursesSnapshot = await getDocs(userCoursesQuery);
-    // Handle case where no documents are found
-    if (userCoursesSnapshot.empty) {
-      console.log("No user courses found.");
-      return [];
-    }
+  // Get the courses info using the retrieved courseId
+  const coursesInfoPromises = userCoursesSnapshot.docs.map(async (docSnap) => {
+      const coursesId = docSnap.data().coursesId;
+      const courseRef = doc(db, "Course", coursesId);
+      const courseDoc = await getDoc(courseRef);
+      if (courseDoc.exists()) {
+          return { id: courseDoc.id, ...courseDoc.data() }; // Return the entire courses data
 
-    // Get the courses info using the retrieved courseId
-    const courseInfoPromises = userCoursesSnapshot.docs.map(async (docSnap) => {
-      const courseId = docSnap.data().courseId;
-      const courseRef = doc(db, "Course", courseId);
-      try {
-        const courseDoc = await getDoc(courseRef);
-        if (courseDoc.exists()) {
-          return { id: courseDoc.id, ...courseDoc.data() };
-        } else {
+      } else {
           console.error(`Course with ID ${courseId} not found`);
           return null;
-        }
-      } catch (error) {
-        console.error(`Error fetching course with ID ${courseId}:`, error);
-        return null;
       }
-    });
+  });
 
+  const courseInfos = await Promise.all(courseInfoPromises);
+  return courseInfos.filter(info => info !== null);
+}
     const courseInfos = await Promise.all(courseInfoPromises);
     return courseInfos.filter((info) => info !== null);
   } catch (error) {
