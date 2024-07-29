@@ -52,16 +52,16 @@ export async function editUserData(userID, newData) {
 }
 
 // Get all courses a specific user is in
-export async function getUserJobs(userId) {
+export async function getUserCourses(userId) {
   const userCoursesRef = collection(db, "userCoursesIn");
-  const userCoursesQuery = query(userJobsRef, where("userId", "==", userId));
-  const userJobsSnapshot = await getDocs(userCoursesQuery);
+  const userCoursesQuery = query(userCoursesRef, where("userId", "==", userId));
+  const userCoursesSnapshot = await getDocs(userCoursesQuery);
 
   // Get the courses info using the retrieved courseId
-  const coursesInfoPromises = userJobsSnapshot.docs.map(async (docSnap) => {
+  const coursesInfoPromises = userCoursesSnapshot.docs.map(async (docSnap) => {
       const coursesId = docSnap.data().coursesId;
       const courseRef = doc(db, "Course", coursesId);
-      const courseDoc = await getDoc(jobRef);
+      const courseDoc = await getDoc(courseRef);
       if (courseDoc.exists()) {
           return { id: courseDoc.id, ...courseDoc.data() }; // Return the entire courses data
 
