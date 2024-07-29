@@ -22,7 +22,7 @@ AutiLearn is a groundbreaking e-learning platform designed specifically for chil
 - **Mobile app version:** To enhance accessibility and user experience, we are developing a dedicated AutiLearn mobile app.
 
 ## 👇 Check our work here
-- [AutiLearn document](https://drive.google.com/file/d/195AjbvoMUBUI752wT76S4RImFkrNFg9W/view?usp=sharing)
+- [AutiLearn document](https://drive.google.com/file/d/1_Dh11H-_p8Tx6cDKLYsMDMMWyx4nMggr/view?usp=sharing)
 - [UI Design](https://www.figma.com/design/RhqLHXiUjBJnLlHYiDV0Qq/AutiLearn?node-id=3034-300&t=Naiot6KmNb5KmsDv-0)
 - [AI API](https://mega-hackathon-2024.onrender.com)
 - [Website](https://autilearn-d8f45.web.app)
