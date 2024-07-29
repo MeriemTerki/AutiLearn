@@ -13,8 +13,7 @@ Below is a diagram illustrating the RAG process:
 
 ## Features
 
-### Chatbot
-
+- Chatbot
 - Generating learning path courses
 - Generating quizzes for the courses
 - Generating stories
