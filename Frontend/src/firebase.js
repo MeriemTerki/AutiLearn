@@ -73,25 +73,17 @@ export async function getUserCourses(userId) {
 
   // Get the courses info using the retrieved courseId
   const coursesInfoPromises = userCoursesSnapshot.docs.map(async (docSnap) => {
-      const coursesId = docSnap.data().coursesId;
-      const courseRef = doc(db, "Course", coursesId);
-      const courseDoc = await getDoc(courseRef);
-      if (courseDoc.exists()) {
-          return { id: courseDoc.id, ...courseDoc.data() }; // Return the entire courses data
-
-      } else {
-          console.error(`Course with ID ${courseId} not found`);
-          return null;
-      }
+    const coursesId = docSnap.data().coursesId;
+    const courseRef = doc(db, "Course", coursesId);
+    const courseDoc = await getDoc(courseRef);
+    if (courseDoc.exists()) {
+      return { id: courseDoc.id, ...courseDoc.data() }; // Return the entire courses data
+    } else {
+      console.error(`Course with ID ${courseId} not found`);
+      return null;
+    }
   });
 
   const courseInfos = await Promise.all(courseInfoPromises);
-  return courseInfos.filter(info => info !== null);
-}
-    const courseInfos = await Promise.all(courseInfoPromises);
-    return courseInfos.filter((info) => info !== null);
-  } catch (error) {
-    console.error("Error fetching user courses:", error);
-    throw error;
-  }
+  return courseInfos.filter((info) => info !== null);
 }
