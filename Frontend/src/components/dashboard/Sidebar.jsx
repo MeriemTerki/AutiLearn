@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   LetterText,
   MessageSquare,
@@ -9,7 +9,8 @@ import {
   X,
 } from "lucide-react";
 import Logo from "../../assets/dashboard/logo.svg";
-
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 const links = [
   { label: "Home", icon: House, path: "/dashboard" },
   { label: "My Learning", icon: LetterText, path: "/dashboard/my-learning" },
@@ -19,9 +20,35 @@ const links = [
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isActiveLink = (path) => location.pathname === path;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
 
+    // Clean up the subscription on unmount
+    return () => unsubscribe();
+  }, []);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        console.log("Signed out successfully");
+        setIsLoggedIn(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        // An error happened.
+      });
+  };
   const renderLinks = () =>
     links.map((item, index) => (
       <li key={index}>
@@ -84,7 +111,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
             {/* Log Out */}
             <Link
-              to="/dashboard/logout"
+              onClick={handleLogout}
               className="flex items-center py-2 text-gray-900 rounded-lg hover:bg-gray-100 group px-4 mb-2 cursor-pointer"
             >
               <LogOut className="w-5" />
