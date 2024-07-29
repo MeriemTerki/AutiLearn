@@ -46,13 +46,12 @@ For more accurate responses, we are using the queries in the chat history to imp
 **Input:**
 When making a request to our API, the input should be structured in the following JSON format:
 
-````json
+```json
 {
   "query": "string",
-  "chat_history": [
-    "string"
-  ]
+  "chat_history": ["string"]
 }
+```
 
 - `query`: This field represents the current user query. It is a string containing the user's question or statement that needs a response.
 - `chat_history`: This is an array of strings representing the chat history between the user and the virtual assistant. Each object contains:
@@ -65,6 +64,7 @@ When making a request to our API, the input should be structured in the followin
 {
   "response": "str"
 }
+```
 
 ## Lesson Generation
 
@@ -83,6 +83,7 @@ When making a request to the Course Generation endpoint, the input should be str
   "type": "string",
   "topic": "string"
 }
+```
 
 **Output:**
 The output will be a JSON object containing the generated content.
@@ -91,6 +92,7 @@ The output will be a JSON object containing the generated content.
 {
   "course_content": "string"
 }
+```
 
 ## Story Generation
 
@@ -109,6 +111,7 @@ When making a request to the Story Generation endpoint, the input should be stru
   "type": "string",
   "topic": "string"
 }
+```
 
 **Output:**
 The output will be a JSON object containing the generated content.
@@ -117,6 +120,7 @@ The output will be a JSON object containing the generated content.
 {
   "story_content": "string"
 }
+```
 
 ## Generating Quizzes
 
@@ -128,7 +132,7 @@ Based on the course content, we generate quizzes about it. The input should be s
 {
   "course_content": "string"
 }
-
+```
 
 **Output:**
 The output will be a JSON object containing the generated quizzes.
@@ -137,4 +141,4 @@ The output will be a JSON object containing the generated quizzes.
 {
   "quiz_content": "string"
 }
-````
+```
