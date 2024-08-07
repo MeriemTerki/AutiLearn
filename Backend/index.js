@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-// import courseRoute from "./routes/courseRoute.js";
+import courseRoute from "./routes/courseRoute.js";
 import topicRoute from "./routes/topicRoute.js";
 import questionRoute from "./routes/questionRoute.js";
 dotenv.config();
@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.use("/courses", courseRoute);
+app.use("/courses", courseRoute);
 app.use("/topics", topicRoute);
 app.use("/questions", questionRoute);
 
