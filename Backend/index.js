@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import courseRoute from "./routes/courseRoute.js";
 import topicRoute from "./routes/topicRoute.js";
 import questionRoute from "./routes/questionRoute.js";
+import contentRoute from "./routes/contentRoute.js";
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use("/courses", courseRoute);
 app.use("/topics", topicRoute);
 app.use("/questions", questionRoute);
+app.use("/content", contentRoute);
 
 mongoose
   .connect(process.env.mongoDBURL)

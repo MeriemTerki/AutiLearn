@@ -1,6 +1,43 @@
 import express from "express";
 import { Question } from "../models/questionModel.js";
 
+const parseQuizContent = (content) => {
+  // Define a regex pattern to match questions, answers, and the correct answer
+  const questionPattern =
+    /##\s+The Amazing Cell Quiz!\s+Get ready to test your knowledge about cells! Choose the best answer for each question\.\s+(\*\*Question (\d+): (.*?)\*\*)\s+((?:[a-d]\) (.*?)\n?)*)\*\*Answer: ([a-d])\) (.*?)\*\*\s+\*\*Explanation:\*\* (.*?)(?=\*\*Question \d+:|$)/gs;
+  const questions = [];
+  let match;
+  while ((match = questionPattern.exec(content)) !== null) {
+    const [
+      ,
+      ,
+      id,
+      title,
+      answersBlock,
+      ,
+      correctAnswerLetter,
+      correctAnswer,
+      explanation,
+    ] = match;
+
+    const answers = answersBlock
+      .split("\n")
+      .filter((line) => line.trim())
+      .map((line) => line.trim().slice(3).trim());
+
+    // Map the correct answer letter to the answer text
+    const correctAnswerText =
+      answers[correctAnswerLetter.charCodeAt(0) - "a".charCodeAt(0)];
+
+    questions.push({
+      title: title.trim(),
+      answers: answers,
+      correctAnswer: correctAnswerText,
+      explanation: explanation.trim(),
+    });
+  }
+  return questions;
+};
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -27,18 +64,14 @@ router.get("/:id", async (req, res) => {
 });
 router.post("/", async (req, res) => {
   try {
-    const { title, answers, correctAnswer, explanation } = req.body;
-    if (!title || !answers || !correctAnswer || !explanation) {
+    const { quiz_content } = req.body;
+    console.log("hi", quiz_content);
+    if (!quiz_content) {
       return res.status(400).send({
-        message: "Title, Answers, Correct Answer and Explanation are required.",
+        message: "Quiz content is required.",
       });
     }
-    const newQuestion = {
-      title,
-      answers,
-      correctAnswer,
-      explanation,
-    };
+    const newQuestion = parseQuizContent(quiz_content);
     const question = await Question.create(newQuestion);
     return res.status(201).send(question);
   } catch (error) {
